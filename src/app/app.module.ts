@@ -27,6 +27,7 @@ import { GoogleBooksService } from './services/google-books';
 import { routes } from './routes';
 import { reducer } from './reducers';
 import { schema } from './db';
+import {DataTableModule} from 'primeng/components/datatable/datatable'
 
 
 
@@ -37,6 +38,7 @@ import { schema } from './db';
     MaterialModule,
     ComponentsModule,
     RouterModule.forRoot(routes, { useHash: true }),
+    DataTableModule,
 
     /**
      * StoreModule.provideStore is imported once in the root module, accepting a reducer

@@ -11,45 +11,31 @@ import * as layout from '../actions/layout';
   selector: 'book-collection-app',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <bc-layout>
-      <bc-sidenav [open]="showSidenav$ | async">
-        <bc-nav-item (activate)="closeSidenav()" routerLink="/" icon="book" hint="View your book collection">
-          My Collection
-        </bc-nav-item>
-        <bc-nav-item (activate)="closeSidenav()" routerLink="/book/find" icon="search" hint="Find your next book!">
-          Browse Books
-        </bc-nav-item>
-      </bc-sidenav>
-      <bc-toolbar (openMenu)="openSidenav()">
-        Book Collection
-      </bc-toolbar>
+
+    <div>
+      <p-dataTable [value]="testData" selectionMode="single" [responsive]="true">
+        <p-column field="name" header="name"></p-column>
+      </p-dataTable>
+    </div>
 
       <router-outlet></router-outlet>
-    </bc-layout>
+
   `
 })
 export class AppComponent {
-  showSidenav$: Observable<boolean>;
-
-  constructor(private store: Store<fromRoot.State>) {
-    /**
-     * Selectors can be applied with the `select` operator which passes the state
-     * tree to the provided selector
-     */
-    this.showSidenav$ = this.store.select(fromRoot.getShowSidenav);
+  public testData;
+  constructor() {
+    this.testData = [
+      {name: 'a'},
+      {name: 'b'}
+    ];
+    
+    setTimeout(() => {
+      this.testData = [
+        {name: 'c'},
+        {name: 'd'}
+      ];
+    }, 500);
   }
 
-  closeSidenav() {
-    /**
-     * All state updates are handled through dispatched actions in 'container'
-     * components. This provides a clear, reproducible history of state
-     * updates and user interaction through the life of our
-     * application.
-     */
-    this.store.dispatch(new layout.CloseSidenavAction());
-  }
-
-  openSidenav() {
-    this.store.dispatch(new layout.OpenSidenavAction());
-  }
 }
